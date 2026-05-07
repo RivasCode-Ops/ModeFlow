@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(cuid())
+  email      String     @unique
+  name       String?
+  avatarUrl  String?
+  xp         Int        @default(0)
+  level      Int        @default(1)
+  streak     Int        @default(0)
+  lastActive DateTime?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  lifeModes  LifeMode[]
+  tasks      Task[]
+}
+
+model LifeMode {
+  id        String   @id @default(cuid())
+  title     String
+  color     String   @default("#6366f1")
+  level     Int      @default(1)
+  currentXp Int      @default(0)
+  maxXp     Int      @default(100)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id        String    @id @default(cuid())
+  content   String
+  isDone    Boolean   @default(false)
+  time      DateTime?
+  modeId    String
+  lifeMode  LifeMode  @relation(fields: [modeId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
