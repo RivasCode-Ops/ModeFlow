@@ -1,4 +1,20 @@
+import { Suspense } from "react";
+import { LifeModesDashboard } from "@/components/life-modes/life-modes-dashboard";
 import { createClient } from "@/lib/supabase/server";
+
+function DashboardSkeleton() {
+  return (
+    <div className="mx-auto max-w-5xl animate-pulse px-4 pt-6">
+      <div className="h-6 w-40 rounded bg-slate-800" />
+      <div className="mt-4 h-10 w-2/3 rounded bg-slate-800" />
+      <div className="mt-10 flex justify-center gap-6">
+        <div className="h-28 w-28 rounded-full bg-slate-800" />
+        <div className="h-36 w-36 rounded-full bg-slate-800" />
+        <div className="h-24 w-24 rounded-full bg-slate-800" />
+      </div>
+    </div>
+  );
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -7,11 +23,10 @@ export default async function DashboardPage() {
   } = await supabase.auth.getUser();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-4 p-8">
-      <h1 className="text-2xl font-semibold text-slate-100">Dashboard</h1>
-      <p className="text-slate-400">
-        {user?.email ?? "Sessão ativa (sem email visível)."}
-      </p>
-    </main>
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+      <Suspense fallback={<DashboardSkeleton />}>
+        <LifeModesDashboard userEmail={user?.email} />
+      </Suspense>
+    </div>
   );
 }
