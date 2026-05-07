@@ -1,21 +1,53 @@
-# ModeFlow
+# ModeFlow - SaaS de Produtividade Gamificada
 
-Aplicativo SaaS em desenvolvimento dentro de `02_APPS`.
+## Agente ModeFlow
 
-## Estrutura
+Este projeto utiliza um **Agente de IA** para guiar a implementacao passo a passo.
 
-- `app/`: aplicacao principal (frontend/backend)
-- `src/`: codigo-fonte compartilhado
-- `docs/`: documentacao do produto e operacao
-- `INSTRUCTIONS.md`: contexto e diretrizes para IA
+### Como usar
 
-## Organizacao relacionada
+1. Abra o arquivo [`AGENTE_MODEFLOW_PROMPT.md`](./AGENTE_MODEFLOW_PROMPT.md)
+2. Copie todo o conteudo
+3. Cole no Cursor (ou qualquer LLM)
+4. O agente comecara a execucao pelo **Comando #1**
 
-- Negocio e metricas: `../01_NEGOCIOS/ModeFlow` (fora deste repositorio)
-- Automacoes operacionais: `../03_AUTOMACOES` (fora deste repositorio)
+### Estrutura do Agente
 
-## Proximos passos
+- **1 comando por vez** - evita sobrecarga
+- **Confirmacao obrigatoria** - voce controla o ritmo
+- **Tratamento de erro** - causa + solucao imediata
+- **Checkpoints** - progresso claro a cada 3 comandos
 
-- Definir stack principal no `app/`
-- Registrar milestones em `docs/roadmap.md`
-- Iniciar versionamento Git e primeiro commit
+### Tecnologias
+
+- Next.js 14 + TypeScript + Tailwind
+- Supabase Auth (Google/GitHub)
+- Prisma + PostgreSQL
+- Zustand, Framer Motion, Recharts
+- OpenAI API
+
+---
+
+## Desenvolvimento
+
+```bash
+# Instalar dependencias
+npm install
+
+# Rodar em desenvolvimento
+npm run dev
+
+# Build de producao
+npm run build
+```
+
+## Estrutura de Pastas
+
+```text
+ModeFlow/
+├── app/                    # Next.js App Router
+├── lib/                    # Utilitarios (Prisma, Supabase)
+├── prisma/                 # Schema do banco
+├── docs/business/          # Junction para 01_NEGOCIOS
+└── AGENTE_MODEFLOW_PROMPT.md
+```
