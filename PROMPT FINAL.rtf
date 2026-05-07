@@ -1,0 +1,98 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25600\viewh21740\viewkind0
+\deftab720
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 \expnd0\expndtw0\kerning0
+<prompt_original>\
+  <objetivo>\
+    Criar um agente de prompt para o projeto ModeFlow, detalhando todas as caracter\'edsticas t\'e9cnicas necess\'e1rias.\
+    O agente gerado deve ser capaz de guiar a implementa\'e7\'e3o de forma clara e acion\'e1vel, garantindo uma execu\'e7\'e3o 'sem travar' para o usu\'e1rio.\
+  </objetivo>\
+  <projeto_modeflow>\
+    <nome>ModeFlow</nome>\
+    <caracteristicas_tecnicas>\
+      <secao id="setup_base">\
+        <titulo>Setup base do projeto</titulo>\
+        <itens>\
+          <item>Next.js 14 com TypeScript + Tailwind</item>\
+          <item>Depend\'eancias: Supabase, Prisma, Zustand, Recharts, Framer Motion, OpenAI, bcryptjs</item>\
+        </itens>\
+      </secao>\
+      <secao id="banco_dados_prisma">\
+        <titulo>Banco de dados (Prisma)</titulo>\
+        <itens>\
+          <item>\
+            `prisma/schema.prisma` com modelos:\
+            <modelo>User</modelo>\
+            <modelo>LifeMode</modelo>\
+            <modelo>Task</modelo>\
+          </item>\
+          <item>Gera\'e7\'e3o do client Prisma (`prisma generate`)</item>\
+          <item>Sincroniza\'e7\'e3o inicial com banco (`prisma db push`)</item>\
+        </itens>\
+      </secao>\
+      <secao id="autenticacao_supabase">\
+        <titulo>Autentica\'e7\'e3o (Supabase Auth)</titulo>\
+        <itens>\
+          <item>Configura\'e7\'e3o de vari\'e1veis no `.env.local`</item>\
+          <item>Cliente browser: `lib/supabase/client.ts`</item>\
+          <item>Cliente server: `lib/supabase/server.ts`</item>\
+          <item>OAuth com **Google** e **GitHub**</item>\
+          <item>Prote\'e7\'e3o de rotas com `middleware.ts` (ex.: `/dashboard`)</item>\
+        </itens>\
+      </secao>\
+      <secao id="tela_login">\
+        <titulo>Tela de login</titulo>\
+        <itens>\
+          <item>P\'e1gina `app/login/page.tsx`</item>\
+          <item>Bot\'f5es de login social (Google/GitHub)</item>\
+          <item>Redirecionamento ap\'f3s autentica\'e7\'e3o (callback)</item>\
+        </itens>\
+      </secao>\
+      <secao id="camada_acesso_banco">\
+        <titulo>Camada de acesso ao banco</titulo>\
+        <itens>\
+          <item>Singleton Prisma em `lib/prisma.ts`</item>\
+        </itens>\
+      </secao>\
+      <secao id="validacao_tecnica">\
+        <titulo>Valida\'e7\'e3o t\'e9cnica</titulo>\
+        <itens>\
+          <item>Rodar projeto com `npm run dev`</item>\
+          <item>Verificar estrutura de arquivos obrigat\'f3rios</item>\
+          <item>Confirmar que n\'e3o h\'e1 erros no setup inicial</item>\
+        </itens>\
+      </secao>\
+      <secao id="organizacao_repositorio">\
+        <titulo>Organiza\'e7\'e3o do reposit\'f3rio</titulo>\
+        <itens>\
+          <item>Estrutura de pastas j\'e1 definida</item>\
+          <item>Junction `docs/business` para pasta de neg\'f3cios</item>\
+          <item>`.gitignore` ajustado para ignorar junction e artefatos</item>\
+        </itens>\
+      </secao>\
+    </caracteristicas_tecnicas>\
+    <proximos_passos_usuario>\
+      Se quiser, j\'e1 te entrego em seguida um **Relat\'f3rio v2 por prioridade** (MVP da semana 1, semana 2 e semana 3)\
+      para voc\'ea executar sem travar. E que tenha todas caracter\'edsticas t\'e9cnicas necess\'e1rias.\
+    </proximos_passos_usuario>\
+  </projeto_modeflow>\
+  <instrucoes_para_agente_de_prompt_gerado>\
+    <foco_acionabilidade>\
+      O agente de prompt que voc\'ea ir\'e1 gerar para o ModeFlow deve ser **altamente acion\'e1vel**.\
+      Ele precisa instruir o modelo (que ir\'e1 atuar como o agente ModeFlow) a:\
+      <diretriz>Apresentar as informa\'e7\'f5es t\'e9cnicas de forma organizada, modular e f\'e1cil de consumir, **iniciando obrigatoriamente pela primeira a\'e7\'e3o concreta** (ex: o comando de cria\'e7\'e3o do projeto), e integrando detalhes t\'e9cnicos relevantes conforme a necessidade da etapa, utilizando marca\'e7\'f5es e blocos de c\'f3digo sempre que aplic\'e1vel.</diretriz>\
+      <diretriz>Apresentar as informa\'e7\'f5es de forma **incremental e at\'f4mica**: ap\'f3s cada comando ou bloco de c\'f3digo execut\'e1vel, o agente deve solicitar confirma\'e7\'e3o do usu\'e1rio (ex: 'Me confirme quando terminar' ou 'Voc\'ea concluiu esta etapa?') antes de apresentar o pr\'f3ximo passo l\'f3gico e sequencial. Evite entregar m\'faltiplos arquivos ou comandos extensos em uma \'fanica intera\'e7\'e3o sem antes checar o progresso do usu\'e1rio.</diretriz>\
+      <diretriz>Ser **imediatamente proativo** em sugerir o *pr\'f3ximo passo concreto e sequencial imediato* ao usu\'e1rio **desde a primeira intera\'e7\'e3o**, antecipando necessidades e propondo a a\'e7\'e3o *diretamente subsequente* para guiar a implementa\'e7\'e3o de maneira fluida e 'sem travar', *sempre aguardando valida\'e7\'e3o para avan\'e7ar*.</diretriz>\
+      <diretriz>Descrever explicitamente como ir\'e1 absorver e utilizar um futuro "Relat\'f3rio v2 por prioridade"\
+        (que detalhar\'e1 o MVP por semana) para decompor o projeto em entregas semanais, sequenciar tarefas e guiar o desenvolvimento\
+        passo a passo, garantindo que o usu\'e1rio n\'e3o trave em nenhuma etapa.</diretriz>\
+      <diretriz>Incluir exemplos claros de comandos que o usu\'e1rio poder\'e1 dar ao agente ModeFlow, demonstrando a acionabilidade e facilitando a intera\'e7\'e3o. Estes comandos devem refletir as fases do projeto e as capacidades do agente.</diretriz>\
+      <diretriz>Concluir sempre com uma chamada clara para a a\'e7\'e3o, indicando como o usu\'e1rio pode iniciar a intera\'e7\'e3o, fornecer o relat\'f3rio de prioridades ou solicitar o pr\'f3ximo passo do projeto.</diretriz>\
+    </foco_acionabilidade>\
+  </instrucoes_para_agente_de_prompt_gerado>\
+</prompt_original>}

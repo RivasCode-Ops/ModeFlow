@@ -28,6 +28,16 @@ Este projeto utiliza um **Agente de IA** para guiar a implementacao passo a pass
 
 ---
 
+## Variáveis de ambiente
+
+1. Copie `.env.example` para `.env.local`
+2. Preencha no Supabase (Project Settings → API e Database)
+3. Senhas com caracteres especiais na `DATABASE_URL`: use a URI gerada pelo painel ou codifique (`@` → `%40`)
+
+```bash
+copy .env.example .env.local
+```
+
 ## Desenvolvimento
 
 ```bash
@@ -39,7 +49,11 @@ npm run dev
 
 # Build de producao
 npm run build
+
+# Prisma (após DATABASE_URL válida)
+npm run db:push
 ```
+
 
 ## Estrutura de Pastas
 
