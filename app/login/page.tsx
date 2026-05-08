@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 type Provider = "google" | "github";
 
 export default function LoginPage() {
   const [loadingProvider, setLoadingProvider] = useState<Provider | null>(null);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   const signInWithProvider = async (provider: Provider) => {
     setLoadingProvider(provider);

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { bubbleDiameterPx } from "./bubble-scale";
 import { MOCK_LIFE_MODES } from "./mock-life-modes";
 
@@ -20,11 +20,14 @@ export function LifeModesDashboard({ userEmail }: Props) {
     return MOCK_LIFE_MODES.find((m) => m.id === modeId) ?? MOCK_LIFE_MODES[0];
   }, [modeId]);
 
-  const setMode = (id: string) => {
-    const next = new URLSearchParams(searchParams.toString());
-    next.set("mode", id);
-    router.push(`/dashboard?${next.toString()}`, { scroll: false });
-  };
+  const setMode = useCallback(
+    (id: string) => {
+      const next = new URLSearchParams(searchParams.toString());
+      next.set("mode", id);
+      router.push(`/dashboard?${next.toString()}`, { scroll: false });
+    },
+    [router, searchParams],
+  );
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 pb-16 pt-6 sm:px-6">
