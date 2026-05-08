@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { LifeModesDashboard } from "@/components/life-modes/life-modes-dashboard";
+import { getLifeModesWithStatsByEmail } from "@/lib/services/life-modes";
 import { createClient } from "@/lib/supabase/server";
 
 function DashboardSkeleton() {
@@ -21,11 +22,14 @@ export default async function DashboardPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const modes = user?.email
+    ? await getLifeModesWithStatsByEmail(user.email, user.user_metadata?.name)
+    : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
       <Suspense fallback={<DashboardSkeleton />}>
-        <LifeModesDashboard userEmail={user?.email} />
+        <LifeModesDashboard userEmail={user?.email} modes={modes} />
       </Suspense>
     </div>
   );

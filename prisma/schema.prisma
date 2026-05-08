@@ -23,17 +23,20 @@ model User {
 }
 
 model LifeMode {
-  id        String   @id @default(cuid())
-  title     String
-  color     String   @default("#6366f1")
-  level     Int      @default(1)
-  currentXp Int      @default(0)
-  maxXp     Int      @default(100)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  color          String   @default("#6366f1")
+  level          Int      @default(1)
+  currentXp      Int      @default(0)
+  maxXp          Int      @default(100)
+  whereILeftOff  String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks          Task[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Task {
@@ -47,4 +50,6 @@ model Task {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([userId, modeId])
 }
