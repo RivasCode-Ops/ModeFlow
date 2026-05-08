@@ -8,18 +8,22 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(cuid())
-  email      String     @unique
-  name       String?
-  avatarUrl  String?
-  xp         Int        @default(0)
-  level      Int        @default(1)
-  streak     Int        @default(0)
-  lastActive DateTime?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  lifeModes  LifeMode[]
-  tasks      Task[]
+  id            String        @id @default(cuid())
+  email         String        @unique
+  name          String?
+  avatarUrl     String?
+  xp            Int           @default(0)
+  level         Int           @default(1)
+  streak        Int           @default(0)
+  lastActive    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  lifeModes     LifeMode[]
+  tasks         Task[]
+  projects      Project[]
+  ideas         Idea[]
+  links         ImportantLink[]
+  documentRefs  DocumentRef[]
 }
 
 model LifeMode {
@@ -33,23 +37,93 @@ model LifeMode {
   userId         String
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tasks          Task[]
+  projects       Project[]
+  ideas          Idea[]
+  links          ImportantLink[]
+  documentRefs   DocumentRef[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
   @@index([userId])
 }
 
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  BLOCKED
+}
+
 model Task {
   id        String    @id @default(cuid())
   content   String
   isDone    Boolean   @default(false)
+  status    TaskStatus @default(TODO)
   time      DateTime?
   modeId    String
   lifeMode  LifeMode  @relation(fields: [modeId], references: [id], onDelete: Cascade)
+  projectId String?
+  project   Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
   userId    String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([userId, modeId, projectId])
+}
+
+model Project {
+  id         String    @id @default(cuid())
+  name       String
+  progress   Int       @default(0)
+  modeId     String
+  lifeMode   LifeMode  @relation(fields: [modeId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks      Task[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId, modeId])
+}
+
+model Idea {
+  id         String    @id @default(cuid())
+  content    String
+  modeId     String
+  lifeMode   LifeMode  @relation(fields: [modeId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId, modeId])
+}
+
+model ImportantLink {
+  id         String    @id @default(cuid())
+  title      String
+  url        String
+  modeId     String
+  lifeMode   LifeMode  @relation(fields: [modeId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId, modeId])
+}
+
+model DocumentRef {
+  id         String    @id @default(cuid())
+  title      String
+  url        String
+  modeId     String
+  lifeMode   LifeMode  @relation(fields: [modeId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   @@index([userId, modeId])
 }

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { ensureUserByEmail } from "@/lib/services/user-identity";
 
 export type DashboardLifeMode = {
   id: string;
@@ -8,22 +9,11 @@ export type DashboardLifeMode = {
   tasksCount: number;
   tasksDone: number;
   timeSpentMinutes: number;
+  projects: { id: string; name: string; progress: number }[];
+  ideas: { id: string; content: string }[];
+  links: { id: string; title: string; url: string }[];
+  documents: { id: string; title: string; url: string }[];
 };
-
-async function ensureUserByEmail(email: string, name?: string | null) {
-  const existing = await prisma.user.findUnique({
-    where: { email },
-  });
-
-  if (existing) return existing;
-
-  return prisma.user.create({
-    data: {
-      email,
-      name: name ?? null,
-    },
-  });
-}
 
 export async function getLifeModesWithStatsByEmail(
   email: string,
@@ -39,6 +29,41 @@ export async function getLifeModesWithStatsByEmail(
           isDone: true,
           time: true,
         },
+      },
+      projects: {
+        select: {
+          id: true,
+          name: true,
+          progress: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+      ideas: {
+        select: {
+          id: true,
+          content: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+      links: {
+        select: {
+          id: true,
+          title: true,
+          url: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+      documentRefs: {
+        select: {
+          id: true,
+          title: true,
+          url: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
       },
     },
     orderBy: {
@@ -60,6 +85,10 @@ export async function getLifeModesWithStatsByEmail(
       tasksDone,
       // Placeholder de dedicacao ate existir FocusSession.
       timeSpentMinutes: timedTasks * 30 + tasksDone * 10,
+      projects: mode.projects,
+      ideas: mode.ideas,
+      links: mode.links,
+      documents: mode.documentRefs,
     };
   });
 }
