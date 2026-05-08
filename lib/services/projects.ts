@@ -25,3 +25,20 @@ export async function createProjectByMode(
     },
   });
 }
+
+export async function updateProjectProgressById(
+  email: string,
+  projectId: string,
+  progress: number,
+) {
+  const user = await ensureUserByEmail(email);
+
+  const clamped = Math.max(0, Math.min(100, progress));
+
+  const result = await prisma.project.updateMany({
+    where: { id: projectId, userId: user.id },
+    data: { progress: clamped },
+  });
+
+  return result.count > 0;
+}

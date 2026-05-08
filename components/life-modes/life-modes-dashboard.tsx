@@ -235,6 +235,15 @@ export function LifeModesDashboard({ userEmail, modes }: Props) {
               <li className="text-xs text-slate-500">Nenhum projeto nesta área ainda.</li>
             )}
           </ul>
+          {selected?.id ? (
+            <button
+              type="button"
+              onClick={() => router.push(`/dashboard/${selected.id}`)}
+              className="mt-3 rounded-lg border border-white/15 px-3 py-2 text-xs text-slate-200 hover:bg-white/10"
+            >
+              Abrir workspace da área
+            </button>
+          ) : null}
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
