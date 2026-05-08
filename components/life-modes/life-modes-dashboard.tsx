@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { bubbleDiameterPx } from "./bubble-scale";
+import { LifeModeBubble } from "./life-mode-bubble";
 import { MOCK_LIFE_MODES } from "./mock-life-modes";
 
 type Props = {
@@ -29,6 +29,16 @@ export function LifeModesDashboard({ userEmail }: Props) {
     [router, searchParams],
   );
 
+  const modeRows = useMemo(
+    () =>
+      MOCK_LIFE_MODES.map((mode, index) => ({
+        mode,
+        index,
+        size: bubbleDiameterPx(mode.timeSpentMinutes, mode.tasksCount),
+      })),
+    [],
+  );
+
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 pb-16 pt-6 sm:px-6">
       <header className="space-y-1">
@@ -47,50 +57,20 @@ export function LifeModesDashboard({ userEmail }: Props) {
         aria-label="Bolhas dos modos"
         className="relative flex min-h-[320px] flex-wrap items-center justify-center gap-6 sm:min-h-[380px] sm:gap-8"
       >
-        {MOCK_LIFE_MODES.map((mode, index) => {
-          const size = bubbleDiameterPx(mode.timeSpentMinutes, mode.tasksCount);
-          const active = selected.id === mode.id;
-
-          return (
-            <motion.button
-              key={mode.id}
-              type="button"
-              layout
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{
-                scale: active ? 1.06 : 1,
-                opacity: 1,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 22,
-                delay: index * 0.05,
-              }}
-              onClick={() => setMode(mode.id)}
-              className="relative flex shrink-0 cursor-pointer flex-col items-center justify-center rounded-full border text-center shadow-lg outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-              style={{
-                width: size,
-                height: size,
-                borderColor: active ? `${mode.color}cc` : "rgba(255,255,255,0.12)",
-                background: `radial-gradient(circle at 30% 25%, ${mode.color}55, rgba(15,23,42,0.85))`,
-                boxShadow: active
-                  ? `0 0 0 2px ${mode.color}66, 0 25px 50px -12px rgba(0,0,0,0.65)`
-                  : "0 20px 40px -15px rgba(0,0,0,0.55)",
-              }}
-            >
-              <span
-                className="px-3 text-sm font-medium leading-tight text-white drop-shadow-sm sm:text-base"
-                style={{ maxWidth: size * 0.85 }}
-              >
-                {mode.title}
-              </span>
-              <span className="mt-1 text-[10px] font-medium text-white/75 sm:text-xs">
-                {mode.tasksCount} tarefas · {mode.timeSpentMinutes} min
-              </span>
-            </motion.button>
-          );
-        })}
+        {modeRows.map(({ mode, index, size }) => (
+          <LifeModeBubble
+            key={mode.id}
+            modeId={mode.id}
+            title={mode.title}
+            color={mode.color}
+            size={size}
+            tasksCount={mode.tasksCount}
+            timeSpentMinutes={mode.timeSpentMinutes}
+            active={selected.id === mode.id}
+            index={index}
+            onSelect={setMode}
+          />
+        ))}
       </section>
 
       <section
